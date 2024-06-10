@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Text to image</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-[#212121]">
+    <div class="h-screen relative flex flex-col justify-between">
+      <h1 class="text-white text-2xl text-center font-bold pt-10">
+        Text to image
+      </h1>
+      {% if prompt %}
+      <div class="max-w-4xl w-full mx-auto">
+        <p
+          class="max-w-2xl border border-gray-200/50 w-max bg-[#2f2f2f] ml-auto text-white py-3 px-5 rounded-3xl"
+        >
+          {{ prompt }}
+        </p>
+      </div>
+      {% endif %}
+      <img
+        src="{{image_url}}"
+        alt="placeholder"
+        width="500"
+        height="500"
+        class="mx-auto mt-2"
+      />
+      <form class="text-center mb-5" action="/generate" method="post">
+        <input
+          id="input"
+          type="text"
+          name="prompt"
+          placeholder="Enter your prompt"
+          class="bg-[#2f2f2f] text-white rounded-full w-[800px] focus:outline-none mx-auto py-4 px-6"
+          required
+        />
+        <button
+          id="generate"
+          onClick="disable()"
+          type="submit"
+          class="bg-white text-gray-800 font-medium px-5 py-3 rounded-full ml-2 hover:bg-gray-300 active:bg-white"
+        >
+          Generate
+        </button>
+      </form>
+    </div>
+
+    <script>
+      let button = document.getElementById("generate");
+      let inputField = document.getElementById("input");
+      button.disabled = true;
+      button.style.backgroundColor = "gray";
+      button.style.cursor = "not-allowed";
+
+      inputField.addEventListener("keyup", () => {
+        if (inputField.value.length > 0) {
+          button.disabled = false;
+          button.style.backgroundColor = "white";
+          button.style.cursor = "pointer";
+        } else {
+          button.disabled = true;
+          button.style.backgroundColor = "gray";
+          button.style.cursor = "not-allowed";
+        }
+      });
+
+      function disable(){
+        setTimeout(() => {
+          button.disabled = true;
+          button.style.backgroundColor = "gray";
+          button.style.cursor = "not-allowed";
+        }, 100);
+      }
+    </script>
+  </body>
+</html>
